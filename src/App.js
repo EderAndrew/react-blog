@@ -1,24 +1,32 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React,{lazy, Suspense, useState, useEffect} from 'react';
+import {BrowserRouter, Switch, Route} from 'react-router-dom'
+import './css/global.css'
+import firebase from './firebase'
 
-function App() {
+const Home = lazy(() => import('./pages/Home'))
+ 
+const App = () => {
+  const [firebaseInitialized, setFirebaseInitialized] = useState(false)
+
+  useEffect(() => {
+    firebase.isInialized().then(result => {
+      setFirebaseInitialized(result)  
+    })
+  }, [])
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Suspense fallback={<h2>Loading...</h2>} >
+        <BrowserRouter>
+          <Switch>
+            {firebaseInitialized !== false 
+              ? 
+              <Route exact path="/" component={Home}/>
+              :
+              <h1>Loading...</h1>
+            }
+          </Switch>
+        </BrowserRouter>
+      </Suspense>
     </div>
   );
 }

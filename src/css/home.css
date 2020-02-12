@@ -1,0 +1,24 @@
+.container{
+    display: flex;
+    height: 120vh;
+    background-image: url('../assets/img/image-background.png');
+    background-size: cover;
+    flex-direction: column;
+}
+.message{
+    display: flex;
+    justify-content: center;
+}
+.container h2{
+    font-size: 32px;
+    color: #47726A;
+}
+.footer{
+    display: flex;
+    justify-content: center;
+    margin-top: 100px;
+}
+.footer p{
+    font-size: 14px;
+    color: #47726A;
+}
