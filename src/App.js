@@ -2,6 +2,7 @@ import React,{lazy, Suspense, useState, useEffect} from 'react';
 import {BrowserRouter, Switch, Route} from 'react-router-dom'
 import './css/global.css'
 import firebase from './firebase'
+import Dashboard from './pages/Dashboard';
 
 const Home = lazy(() => import('./pages/Home'))
  
@@ -16,16 +17,19 @@ const App = () => {
   return (
     <div className="App">
       <Suspense fallback={<h2>Loading...</h2>} >
-        <BrowserRouter>
-          <Switch>
+        
             {firebaseInitialized !== false 
-              ? 
-              <Route exact path="/" component={Home}/>
+              ?
+              <BrowserRouter>
+                <Switch>
+                  <Route exact path="/" component={Home}/>
+                  <Route exact path="/dashboard" component={Dashboard} />
+                </Switch>
+              </BrowserRouter>
               :
               <h1>Loading...</h1>
             }
-          </Switch>
-        </BrowserRouter>
+          
       </Suspense>
     </div>
   );

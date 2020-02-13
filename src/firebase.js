@@ -1,4 +1,4 @@
-import firebase, { app } from 'firebase/app'
+import app from 'firebase/app'
 import 'firebase/database'
 import 'firebase/auth'
 
@@ -15,25 +15,29 @@ let firebaseConfig = {
   
 class Firebase{
     constructor(){
-        firebase.initializeApp(firebaseConfig);
+        app.initializeApp(firebaseConfig);
     }
 
     login(email, password){
-        return firebase.auth().signInWithEmailAndPassword(email, password)
+        return app.auth().signInWithEmailAndPassword(email, password)
     }
 
     async register(name, email, password){
-        await firebase.auth().createUserWithEmailAndPassword(email, password)
+        await app.auth().createUserWithEmailAndPassword(email, password)
         
-        const uid = firebase.auth().currentUser.uid
+        const uid = app.auth().currentUser.uid
 
-        return firebase.database().ref('user').child(uid).set({name})
+        return app.database().ref('user').child(uid).set({name})
     }
 
     isInialized(){
         return new Promise(resolve => {
-            firebase.auth().onAuthStateChanged(resolve)
+            app.auth().onAuthStateChanged(resolve)
         })
+    }
+
+    getCurrent(){
+        return app.auth().currentUser && app.auth().currentUser.email
     }
 }
 
